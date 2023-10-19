@@ -23,6 +23,9 @@ usort($files, function($a, $b) {
     ?>
     <div class='bg-gray-200 dark:bg-gray-700 text-black dark:text-gray-300 p-3 rounded w-64 h-80 relative'>
         <div class='font-semibold text-center uppercase'> <?= $data->name ?></div>
+
+        <div class="bg-gray-800 py-1 rounded mt-2 text-xs text-center"><?= $data->uptime ?></div>
+
         <div class='flex gap-3 justify-around w-full mt-3'>
             <div class="text-center"><b>CPU</b><br/><?= colorPercent($data->cpu_percent) ?></div>
             <div class="text-center"><b>RAM</b><br/><?= colorPercent($data->ram_percent) ?></div>
