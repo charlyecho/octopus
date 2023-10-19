@@ -74,7 +74,7 @@ function timeToAgo($date): string
 function colorPercent($value): string
 {
     if ($value > 90) {
-        return "<span class='text-red-700 animate-pulse font-semibold'>".$value."%</span>";
+        return "<span class='bg-red-700 text-white p-1 rounded font-semibold'>".$value."%</span>";
     }
 
     return "<span>".$value."%</span>";
