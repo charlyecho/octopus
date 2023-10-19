@@ -10,24 +10,24 @@ $files = glob("../files/*.json");
     <link href="style.css" rel="stylesheet" />
     <meta http-equiv="refresh" content="10" />
 </head>
-<body class="bg-gray-500">
+<body class="bg-gray-800">
 <div class="flex flex-wrap gap-3 p-3">
     <?php foreach($files as $f) {
     $data = json_decode(file_get_contents($f));
     ?>
-    <div class='bg-gray-200 p-3 rounded w-64 h-80 relative'>
+    <div class='bg-gray-200 dark:bg-gray-700 text-black dark:text-gray-300 p-3 rounded w-64 h-80 relative'>
         <div class='font-semibold text-center uppercase'> <?= $data->name ?></div>
         <div class='flex gap-3 justify-around w-full mt-3'>
             <div class="text-center"><b>CPU</b><br/><?= colorPercent($data->cpu_percent) ?></div>
             <div class="text-center"><b>RAM</b><br/><?= colorPercent($data->ram_percent) ?></div>
-            <div class="text-center" title="<?= $data->root_space_left ?>"><b>DSK</b><br/><?= colorPercent($data->root_space_left_percent) ?></div>
+            <div class="text-center" title="<?= $data->root_space_left ?>"><b>DISK</b><br/><?= colorPercent($data->root_space_left_percent) ?></div>
             <div class="text-center"><b>SWP</b><br/><?= colorPercent($data->swap_percent) ?></div>
         </div>
 
         <div class="flex flex-wrap gap-2 justify-center mt-3">
             <?php foreach($data as $key => $val): ?>
                 <?php if(!str_contains($key, "service")) {continue;} ?>
-                <div class="rounded <?= $val === "active" ? "bg-lime-100" : "bg-red-100" ?> px-2"><?= str_replace(".service", "", $key) ?></div>
+                <div class="rounded dark:text-black <?= $val === "active" ? "bg-lime-200" : "bg-red-200" ?> px-2"><?= str_replace(".service", "", $key) ?></div>
             <?php endforeach; ?>
         </div>
 
