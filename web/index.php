@@ -8,13 +8,58 @@ $files = glob("../files/*.json");
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="style.css" rel="stylesheet" />
+    <meta http-equiv="refresh" content="10" />
 </head>
 <body class="bg-gray-500">
 <div class="flex flex-wrap gap-3 p-3">
     <?php foreach($files as $f) {
-        require( "../src/item.php" );
+    $data = json_decode(file_get_contents($f));
+    ?>
+    <div class='bg-gray-200 p-3 rounded w-64 h-80 relative'>
+        <div class='font-semibold text-center uppercase'> <?= $data->name ?></div>
+        <div class='flex gap-3 justify-around w-full mt-3'>
+            <div class="text-center"><b>CPU</b><br/><?= $data->cpu_percent ?>%</div>
+            <div class="text-center"><b>RAM</b><br/><?= $data->ram_percent ?>%</div>
+            <div class="text-center"><b>DSK</b><br/><?= $data->root_space_left_percent ?>%</div>
+            <div class="text-center"><b>SWP</b><br/><?= $data->swap_percent ?>%</div>
+        </div>
+
+        <div class="flex flex-wrap gap-2 justify-center mt-3">
+            <?php foreach($data as $key => $val): ?>
+                <?php if(!str_contains($key, "service")) {continue;} ?>
+                <div class="rounded <?= $val === "active" ? "bg-lime-100" : "bg-red-100" ?> px-2"><?= str_replace(".service", "", $key) ?></div>
+            <?php endforeach; ?>
+        </div>
+
+        <?php if ($data->reboot_needed): ?>
+            <div class="absolute top-0 right-0 p-2 text-center rounded" title="Reboot required">❗</div>
+        <?php endif ?>
+
+        <div class="absolute left-0 bottom-0 w-full text-center">
+            <?= timetoAgo($data->date) ?> ago
+        </div>
+    </div>
+    <?php
     }
     ?>
 </div>
 </body>
 </html>
+
+<?php
+
+function timetoAgo($date) {
+    $time = strtotime($date);
+
+    $seconds = time() - $time;
+
+    if ($seconds > 3600) {
+        return floor($seconds/3600)."h";
+    }
+
+    if ($seconds > 60) {
+        return floor($seconds/60)."min";
+    }
+
+    return $seconds."s";
+}
