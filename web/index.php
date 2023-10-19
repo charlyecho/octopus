@@ -18,10 +18,10 @@ $files = glob("../files/*.json");
     <div class='bg-gray-200 p-3 rounded w-64 h-80 relative'>
         <div class='font-semibold text-center uppercase'> <?= $data->name ?></div>
         <div class='flex gap-3 justify-around w-full mt-3'>
-            <div class="text-center"><b>CPU</b><br/><?= $data->cpu_percent ?>%</div>
-            <div class="text-center"><b>RAM</b><br/><?= $data->ram_percent ?>%</div>
-            <div class="text-center"><b>DSK</b><br/><?= $data->root_space_left_percent ?>%</div>
-            <div class="text-center"><b>SWP</b><br/><?= $data->swap_percent ?>%</div>
+            <div class="text-center"><b>CPU</b><br/><?= colorPercent($data->cpu_percent) ?></div>
+            <div class="text-center"><b>RAM</b><br/><?= colorPercent($data->ram_percent) ?></div>
+            <div class="text-center" title="<?= $data->root_space_left ?>"><b>DSK</b><br/><?= colorPercent($data->root_space_left_percent) ?></div>
+            <div class="text-center"><b>SWP</b><br/><?= colorPercent($data->swap_percent) ?></div>
         </div>
 
         <div class="flex flex-wrap gap-2 justify-center mt-3">
@@ -36,7 +36,7 @@ $files = glob("../files/*.json");
         <?php endif ?>
 
         <div class="absolute left-0 bottom-0 w-full text-center">
-            <?= timetoAgo($data->date) ?> ago
+            <?= timeToAgo($data->date) ?> ago
         </div>
     </div>
     <?php
@@ -48,7 +48,8 @@ $files = glob("../files/*.json");
 
 <?php
 
-function timetoAgo($date) {
+function timeToAgo($date): string
+{
     $time = strtotime($date);
 
     $seconds = time() - $time;
@@ -62,4 +63,13 @@ function timetoAgo($date) {
     }
 
     return $seconds."s";
+}
+
+function colorPercent($value): string
+{
+    if ($value > 90) {
+        return "<span class='text-red-700 animate-pulse font-semibold'>".$value."%</span>";
+    }
+
+    return "<span>".$value."%</span>";
 }
