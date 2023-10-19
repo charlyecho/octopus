@@ -1,5 +1,11 @@
 <?php
 $files = glob("../files/*.json");
+sort($files);
+usort($files, function($a, $b) {
+    $_a = json_decode(file_get_contents($a));
+    $_b = json_decode(file_get_contents($b));
+    return $_a->name > $_b->name;
+})
 ?>
 
 <html lang="en">
