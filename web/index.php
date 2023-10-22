@@ -17,7 +17,16 @@ usort($files, function($a, $b) {
         <meta http-equiv="refresh" content="10" />
     </head>
     <body class="bg-gray-800">
-    <div class="flex flex-wrap gap-3 p-3">
+
+    <div class="flex justify-between w-full p-3">
+        <div class="text-green-400 font-semibold uppercase"><a href="/">Octopus</a></div>
+        <div class="text-white font-semibold">
+            <a class="px-1" href="?short">S</a>
+            <a class="px-1" href="/">F</a>
+        </div>
+    </div>
+
+    <div class="flex flex-wrap gap-3 px-3">
         <?php foreach($files as $f) {
             $data = json_decode(file_get_contents($f));
             ?>
